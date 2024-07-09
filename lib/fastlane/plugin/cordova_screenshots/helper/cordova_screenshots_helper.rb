@@ -51,7 +51,7 @@ module Fastlane
 
       # copy over test file to `platforms\android\app\src\androidTest\java\...\ScreengrabTest.java` (... = io\ionic\starter)
       def self.copy_android_test(package_name_path)
-        test_path = "platforms/android/app/src/androidTest/java/#{package_name_path}"
+        test_path = "app/platforms/android/app/src/androidTest/java/#{package_name_path}"
         Dir.exist?(test_path) || FileUtils.mkdir_p(test_path)
         # TODO: Handle missing ScreengrabTest.java file and suggest using other action
         FileUtils.cp("#{CordovaScreenshots::CORDOVA_SCREENSHOTS_ANDROID_CONFIG_PATH}/ScreengrabTest.java", test_path)
@@ -60,13 +60,13 @@ module Fastlane
       # copy over build-extras.gradle to `platforms\android\app`
       def self.copy_android_build_extras_gradle
         android_resources_path = File.expand_path("#{HELPER_PATH}/../resources/android")
-        FileUtils.cp("#{android_resources_path}/build-extras.gradle", "platforms/android/app")
+        FileUtils.cp("#{android_resources_path}/build-extras.gradle", "app/platforms/android/app")
       end
 
       # copy over AndroidManifest.xml to `platforms\android\app\src\debug`
       def self.copy_android_manifest(package_name)
         android_resources_path = File.expand_path("#{HELPER_PATH}/../resources/android")
-        dest_path = "platforms/android/app/src/debug"
+        dest_path = "app/platforms/android/app/src/debug"
         filename = "AndroidManifest.xml"
         Dir.exist?(dest_path) || FileUtils.mkdir_p(dest_path)
         FileUtils.cp("#{android_resources_path}/#{filename}", dest_path)
