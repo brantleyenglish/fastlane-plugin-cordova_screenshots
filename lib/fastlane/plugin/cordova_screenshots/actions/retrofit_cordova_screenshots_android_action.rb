@@ -10,7 +10,6 @@ module Fastlane
         package_name_path = package_name.gsub('.', '/')
 
         Fastlane::Helper::CordovaScreenshotsHelper.copy_android_test(package_name_path)
-        Fastlane::Helper::CordovaScreenshotsHelper.copy_android_build_extras_gradle
         Fastlane::Helper::CordovaScreenshotsHelper.copy_android_manifest(package_name)
 
         UI.success("Done. Build your test app (TODO) and then run `fastlane screengrab` to take screenshots.")

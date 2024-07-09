@@ -57,12 +57,6 @@ module Fastlane
         FileUtils.cp("#{CordovaScreenshots::CORDOVA_SCREENSHOTS_ANDROID_CONFIG_PATH}/ScreengrabTest.java", test_path)
       end
 
-      # copy over build-extras.gradle to `platforms\android\app`
-      def self.copy_android_build_extras_gradle
-        android_resources_path = File.expand_path("#{HELPER_PATH}/../resources/android")
-        FileUtils.cp("#{android_resources_path}/build-extras.gradle", "app/platforms/android/app")
-      end
-
       # copy over AndroidManifest.xml to `platforms\android\app\src\debug`
       def self.copy_android_manifest(package_name)
         android_resources_path = File.expand_path("#{HELPER_PATH}/../resources/android")
