@@ -67,6 +67,15 @@ module Fastlane
         replace_package_name("#{dest_path}/#{filename}", package_name)
       end
 
+      # copy over AndroidManifest.xml to `platforms\android\app\src\androidTest`
+      def self.copy_android_test_manifest()
+        android_resources_path = File.expand_path("#{HELPER_PATH}/../resources/android")
+        dest_path = "app/platforms/android/app/src/androidTest"
+        filename = "AndroidManifest.xml"
+        Dir.exist?(dest_path) || FileUtils.mkdir_p(dest_path)
+        FileUtils.cp("#{android_resources_path}/#{filename}", dest_path)
+      end
+
       def self.replace_package_name(file, package_name)
         data = File.read(file)
         filtered_data = data.gsub("tools.fastlane.plugin.cordova_screenshots", package_name)

@@ -11,6 +11,7 @@ module Fastlane
 
         Fastlane::Helper::CordovaScreenshotsHelper.copy_android_test(package_name_path)
         Fastlane::Helper::CordovaScreenshotsHelper.copy_android_manifest(package_name)
+        Fastlane::Helper::CordovaScreenshotsHelper.copy_android_test_manifest()
 
         UI.success("Done. Build your test app (TODO) and then run `fastlane screengrab` to take screenshots.")
       end
