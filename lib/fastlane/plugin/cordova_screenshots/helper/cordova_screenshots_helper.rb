@@ -69,11 +69,9 @@ module Fastlane
 
       # copy over AndroidManifest.xml to `platforms\android\app\src\androidTest`
       def self.copy_android_test_manifest()
-        android_resources_path = File.expand_path("#{HELPER_PATH}/../resources/android")
         dest_path = "app/platforms/android/app/src/androidTest"
-        filename = "AndroidManifest.xml"
         Dir.exist?(dest_path) || FileUtils.mkdir_p(dest_path)
-        FileUtils.cp("#{android_resources_path}/#{filename}", dest_path)
+        FileUtils.cp("#{CordovaScreenshots::CORDOVA_SCREENSHOTS_ANDROID_CONFIG_PATH}/AndroidManifest.xml", dest_path)
       end
 
       def self.replace_package_name(file, package_name)
