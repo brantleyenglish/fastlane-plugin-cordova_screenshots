@@ -199,21 +199,31 @@ module Fastlane
         target.build_configuration_list.set_setting('DEVELOPMENT_TEAM', team_id)
 
         UI.message("Limit supported platform destinations")
-        # Ensure only iPhone and iPad are supported
-        target.build_configuration_list.set_setting('SUPPORTED_PLATFORMS', 'iphonesimulator iphoneos')
+        # Only allow iOS platforms (iPhone & iPad)
+        target.build_configuration_list.set_setting('SUPPORTED_PLATFORMS', 'iphoneos iphonesimulator')
 
-        # Explicitly disable Mac Catalyst
+        # Explicitly set deployment targets to avoid macOS or visionOS
+        target.build_configuration_list.set_setting('IPHONEOS_DEPLOYMENT_TARGET', '12.0') # Adjust as needed
+        target.build_configuration_list.set_setting('TVOS_DEPLOYMENT_TARGET', '') # Ensure no tvOS support
+        target.build_configuration_list.set_setting('MACOSX_DEPLOYMENT_TARGET', '') # Remove macOS compatibility
+        target.build_configuration_list.set_setting('VISIONOS_DEPLOYMENT_TARGET', '') # Remove visionOS compatibility
+
+        # Make sure Mac Catalyst is completely disabled
         target.build_configuration_list.set_setting('SUPPORTS_MACCATALYST', 'NO')
         target.build_configuration_list.set_setting('DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER', 'NO')
 
-        # Explicitly disable "Designed for iPhone" Mac and VisionOS support
-        target.build_configuration_list.set_setting('SUPPORTED_DEVICE_FAMILIES', '1,2') # 1 = iPhone, 2 = iPad
+        # Force supported device families to iPhone (1) and iPad (2) only
+        target.build_configuration_list.set_setting('SUPPORTED_DEVICE_FAMILIES', '1,2')
 
-        # Ensure visionOS support is disabled
+        # Ensure VisionOS support is explicitly disabled
         target.build_configuration_list.set_setting('SUPPORTS_VISIONOS', 'NO')
+        target.build_configuration_list.set_setting('SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD', 'NO')
 
-        # Exclude non-iOS architectures
-        target.build_configuration_list.set_setting('EXCLUDED_ARCHS[sdk=iphonesimulator*]', 'arm64') # Avoid running on Apple Silicon Mac
+        # Exclude Apple Silicon simulator architectures to prevent Mac compatibility
+        target.build_configuration_list.set_setting('EXCLUDED_ARCHS[sdk=iphonesimulator*]', 'arm64')
+
+        # Ensure that Xcode does not attempt to build for Mac or VisionOS
+        target.build_configuration_list.set_setting('VALID_ARCHS', 'arm64 arm64e x86_64') # Ensure no Apple Silicon Mac compatibility
 
         #
         # Create a shared scheme for the UI tests
