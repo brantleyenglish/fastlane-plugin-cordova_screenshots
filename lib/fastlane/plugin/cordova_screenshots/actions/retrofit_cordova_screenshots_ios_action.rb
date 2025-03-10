@@ -197,6 +197,9 @@ module Fastlane
         target.build_configuration_list.set_setting('CODE_SIGN_IDENTITY[sdk=iphoneos*]', "iPhone Developer")
         target.build_configuration_list.set_setting('LD_RUNPATH_SEARCH_PATHS', "$(inherited) @executable_path/Frameworks @loader_path/Frameworks")
         target.build_configuration_list.set_setting('DEVELOPMENT_TEAM', team_id)
+        target.build_configuration_list.set_setting('SUPPORTED_PLATFORMS', 'iphonesimulator iphoneos')
+        target.build_configuration_list.set_setting('DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER', 'NO')
+        target.build_configuration_list.set_setting('SUPPORTS_MACCATALYST', 'NO')
 
         #
         # Create a shared scheme for the UI tests
