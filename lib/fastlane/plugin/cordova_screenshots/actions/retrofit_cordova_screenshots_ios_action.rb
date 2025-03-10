@@ -197,9 +197,23 @@ module Fastlane
         target.build_configuration_list.set_setting('CODE_SIGN_IDENTITY[sdk=iphoneos*]', "iPhone Developer")
         target.build_configuration_list.set_setting('LD_RUNPATH_SEARCH_PATHS', "$(inherited) @executable_path/Frameworks @loader_path/Frameworks")
         target.build_configuration_list.set_setting('DEVELOPMENT_TEAM', team_id)
+
+        UI.message("Limit supported platform destinations")
+        # Ensure only iPhone and iPad are supported
         target.build_configuration_list.set_setting('SUPPORTED_PLATFORMS', 'iphonesimulator iphoneos')
-        target.build_configuration_list.set_setting('DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER', 'NO')
+
+        # Explicitly disable Mac Catalyst
         target.build_configuration_list.set_setting('SUPPORTS_MACCATALYST', 'NO')
+        target.build_configuration_list.set_setting('DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER', 'NO')
+
+        # Explicitly disable "Designed for iPhone" Mac and VisionOS support
+        target.build_configuration_list.set_setting('SUPPORTED_DEVICE_FAMILIES', '1,2') # 1 = iPhone, 2 = iPad
+
+        # Ensure visionOS support is disabled
+        target.build_configuration_list.set_setting('SUPPORTS_VISIONOS', 'NO')
+
+        # Exclude non-iOS architectures
+        target.build_configuration_list.set_setting('EXCLUDED_ARCHS[sdk=iphonesimulator*]', 'arm64') # Avoid running on Apple Silicon Mac
 
         #
         # Create a shared scheme for the UI tests
